@@ -3,38 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Validation</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/style.css">
+    <title>Form Validation</title>
 </head>
 <body>
     <div class="container">
-        <h1>Register</h1>
-        <form action="" method="get" id="registerForm">
-            <label>Username</label>
-            <input type="text" id="username">
-            <span id="usernameError"></span>
+        <div class="row">
+            <div class="col-4">
+                <img src="../images/boy-gym.svg" alt="" width="100%">
+            </div>
+            <div class="col-8">
+                <div class="form-container">
+                    <h1 class="m-0">Welcome to GYM App</h1>
+                    <h4 class="text-muted m-0">Register your account</h4>
+                    <form action="" method="get" id="registerForm">
+                        <label>Username</label>
+                        <input type="text" id="username">
+                        <span id="usernameError"></span>
 
-            <label>Email</label>
-            <input type="email" id="email">
-            <span id="emailError"></span>
-            
-            <label>Passowrd</label>
-            <input type="password" id="password">
-            <span id="passwordError"></span>
-            
-            <label>Conform Password</label>
-            <input type="password" id="conformPassword">
-            <span id="conformPasswordError"></span>
+                        <label>Email</label>
+                        <input type="email" id="email">
+                        <span id="emailError"></span>
+                        
+                        <label>Passowrd</label>
+                        <input type="password" id="password">
+                        <span id="passwordError"></span>
+                        
+                        <label>Conform Password</label>
+                        <input type="password" id="conformPassword">
+                        <span id="conformPasswordError"></span>
 
-            <label>Gender:</label>
-            <input type="radio" value="Male" name="gender" id="male"> 
-            <label for="male">Male</label>
-            <input type="radio" value="Female" name="gender" id="female">
-            <label for="female"> Female </label>
-            <span id="genderError"></span>
+                        <label>Gender:</label>
+                        <input type="radio" value="Male" name="gender" id="male"> 
+                        <label for="male">Male</label>
+                        <input type="radio" value="Female" name="gender" id="female">
+                        <label for="female"> Female </label>
+                        <span id="genderError"></span>
 
-            <input type="submit" value="SignUp">
-        </form>
+                        <input type="submit" value="SignUp">
+                    </form>
+                    <h4 style="text-align: center;">OR</h4>
+                    <a href="./login.html" class="register-link"> Do you have already account.</a>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="../js/register.js"></script>
 </body>

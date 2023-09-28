@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LogIn</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <img src="../images/girl-gym.svg" alt="" width="100%">
+            </div>
+            <div class="col-8">
+                <div class="form-container">
+                    <h1 class="m-0">LogIn</h1>
+                    <br>
+                    <form action="" method="get" id="logInForm">
+                        <label>Username</label>
+                        <input type="text" id="username">
+                        <span id="usernameError"></span>
+                        <label>Passowrd</label>
+                        <input type="password" id="password">
+                        <span id="passwordError"></span>
+                        <input type="submit" value="LogIn">
+                    </form>
+                    <h4 style="text-align: center;">OR</h4>
+                    <a href="./register.html" class="register-link"> Register a free acount.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/login.js"></script>
 </body>
 </html>

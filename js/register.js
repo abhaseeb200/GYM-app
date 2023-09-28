@@ -1,5 +1,6 @@
 
 //local Storage
+let getCurrently = localStorage.getItem("currentlyLogIn")
 let getUsers = localStorage.getItem("users");
 let users = getUsers ? JSON.parse(getUsers) : [];
 console.log(JSON.parse(getUsers));
@@ -21,13 +22,20 @@ let conformPasswordError = document.getElementById("conformPasswordError");
 let genderError = document.getElementById("genderError");
 let genderCheckedValue = ""
 
-
 //validation Passed
 let usernameValidationPassed = false;
 let emailValidationPassed = false;
 let passwordValidationPassed = false;
 let conformPasswordValidationPassed = false;
 let genderValidationPassed = false;
+
+// Check if the user is Login
+if (JSON.parse(getCurrently)) {
+    console.log("login...")
+    location.replace("../index.html")
+} else {
+    console.log("NOT")
+}
 
 // Event listener to submit form
 form.addEventListener("submit", (e) => {
@@ -36,7 +44,7 @@ form.addEventListener("submit", (e) => {
 });
 
 //Username
-username.addEventListener("blur",()=>{
+username.addEventListener("input",()=>{
     handleUsername()
 })
 
@@ -46,7 +54,7 @@ function handleUsername(){
         username.classList.add("error");
     } else if (username.value.length <= 3) {
         usernameError.innerHTML = "Username should be greater than 3";
-        email.classList.add("error");
+        username.classList.add("error");
     } else {
         usernameError.innerHTML = "";
         username.classList.remove("error");
@@ -56,7 +64,7 @@ function handleUsername(){
 
 
 //Email...
-email.addEventListener("blur", ()=> {
+email.addEventListener("input", ()=> {
     handleEmail();
 })
 
@@ -75,11 +83,11 @@ function handleEmail() {
 }
 
 //password
-password.addEventListener("blur",()=>{
+password.addEventListener("input",()=>{
     handlePassword();
 })
 
-function handlePassword(params) {
+function handlePassword() {
     let isSpecialChar = false;
     let isNumber = false;
     let isAlphabets = false;
@@ -98,11 +106,11 @@ function handlePassword(params) {
         password.classList.add("error");
     } else if (password.value.length < 6) {
         passwordError.innerHTML = "Password should be greater than 6";
-        email.classList.add("error");
+        password.classList.add("error");
     } else if (!isSpecialChar || !isNumber || !isAlphabets) {
         passwordError.innerHTML = "Password combination of ALPHABATS, NUMBERS, SPECIAL CHARACTERS";
         console.log("special:",isSpecialChar, "number:",isNumber,"alphabets:",isAlphabets)
-        email.classList.add("error");
+        password.classList.add("error");
     } else {
         passwordError.innerHTML = "";
         password.classList.remove("error");
@@ -112,7 +120,7 @@ function handlePassword(params) {
 }
 
 //match password
-conformPassword.addEventListener("blur",()=>{
+conformPassword.addEventListener("input",()=>{
     handleConformPassword();
 })
 
@@ -165,30 +173,43 @@ function handleInput() {
     if (usernameValidationPassed && emailValidationPassed && passwordValidationPassed && conformPasswordValidationPassed && genderValidationPassed) {
         console.log("All validation Passed");
         const newUser = {
-            username: username.value,
-            email: email.value,
+            username: username.value.toLowerCase(),
+            email: email.value.toLowerCase(),
             password: password.value,
             gender: genderCheckedValue,
         }
-        users.push(newUser)
 
-        //check username is already used...
+        //check username or email is already in used...
         let getData = JSON.parse(getUsers)
-        let isUsernameAlready = false;
+        let isUsernameAlreadyUsed = false;
+        let isEmailAlreadyUsed = false;
         for (let i = 0; i < getData?.length; i++) {
-            if (getData[i].username === username.value) {
-                alert("Username already exist...");
-                isUsernameAlready = true;
-            } else if (getData[i].email === email.value) {
-                alert("Email already exist...");
-                isUsernameAlready = true;
+            if (getData[i].username === username.value.toLowerCase()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Username already in used',
+                })                  
+                isUsernameAlreadyUsed = true;
+            } else if (getData[i].email === email.value.toLowerCase()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Email already registered',
+                })  
+                isEmailAlreadyUsed = true;
             }
         }
 
-        if(!isUsernameAlready) {
+        if(!isUsernameAlreadyUsed && !isEmailAlreadyUsed) {
+            users.push(newUser)
             localStorage.setItem("users",JSON.stringify(users));
-            alert("Register Successfully...")        
-            location.reload();
+            const newLogin = {
+                username: username.value.toLowerCase(),
+            }
+            localStorage.setItem("currentlyLogIn",JSON.stringify(newLogin))
+            // location.href = "../index.html"
+            location.replace("../index.html")
         }
     }
 }

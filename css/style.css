@@ -1,14 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 body {
-  background-color: #ccc;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+button, a, input {
+  font-family: 'Poppins', sans-serif;
 }
 
 .container {
-  width: 40%;
-  max-width: 1280px;
-  margin: 0 auto;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
+  /* width: 40%; */
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  /* border-radius: 5px; */
+  /* background-color: #f2f2f2; */
+  /* padding: 20px; */
 }
 
 /* input#male, input#female {
@@ -21,6 +28,34 @@ body {
 label[for="male"], label[for="female"] {
   display: inline;
 } */
+
+.row {
+  display: flex;
+  flex-wrap:wrap;
+  /* gap: 20px; */
+  align-items: center;
+}
+
+.col-8 {
+  flex: 55%;
+}
+
+.col-4 {
+  flex: 45%;
+}
+
+.text-muted {
+  font-weight: 400;
+  color: #878686;
+}
+
+.form-container {
+  padding: 0 60px;
+}
+
+.m-0 {
+  margin: 0;
+}
 
 span {
     display: block;
@@ -44,7 +79,7 @@ input[type="text"], input[type="email"], input[type="password"]{
 
 input[type="submit"] {
   width: 100%;
-  background-color: #4caf50;
+  background-color: #5B533E;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -55,5 +90,19 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: #2A2410;
+}
+
+.container img {
+  height: 100vh;
+  object-fit: cover;
+  margin-bottom: -20px;
+}
+
+.register-link {
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
 }
