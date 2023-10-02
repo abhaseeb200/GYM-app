@@ -95,7 +95,8 @@ function handleInput() {
         for (let i = 0; i < getData?.length; i++) {
             if (getData[i].username === username.value.toLowerCase()) {
                 isUsernameCorrect = true;
-            } else if (getData[i].password === password.value) {
+            } 
+            if (getData[i].password === password.value) {
                 isPasswordCorrect = true;
             }
         }

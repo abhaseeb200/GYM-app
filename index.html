@@ -4,12 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/home.css">
+    <title>Gym Master</title>
 </head>
 <body>
-    <h1>HOME PAGE</h1>
-    <button onclick="logout()">LogOut</button>
+    <!-- <button onclick="logout()">LogOut</button> --> 
+    <div class="main-bannar">
+        <header class="banner">
+            <nav class="navbar">
+                <div class="logo">Gym Master</div>
+                <div>  
+                    <span id="showUsername"></span>
+                    <a href="#" class="logout-button" id="logOut-btn">Logout</a>
+                </div>
+            </nav>
+            <button class="start-button" id="start-working">Start Working</button>
+        </header>
+    </div>
     <script src="js/index.js"></script>
 </body>
 </html>

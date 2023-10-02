@@ -3,31 +3,22 @@
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
+  padding: 0;
 }
 
 button, a, input {
   font-family: 'Poppins', sans-serif;
 }
 
-.container {
-  /* width: 40%; */
-  /* max-width: 1280px; */
-  /* margin: 0 auto; */
-  /* border-radius: 5px; */
-  /* background-color: #f2f2f2; */
-  /* padding: 20px; */
-}
-
-/* input#male, input#female {
-  width: auto;
-  height: auto;
-  display: initial;
+/* .container {
+  width: 40%;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
 } */
 
-/*
-label[for="male"], label[for="female"] {
-  display: inline;
-} */
 
 .row {
   display: flex;
@@ -105,4 +96,15 @@ input[type="submit"]:hover {
   text-decoration: none;
   color: black;
   font-weight: 500;
+}
+
+.exercise-container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+span#exercise-counter {
+  display: inline !important;
 }

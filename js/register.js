@@ -72,8 +72,11 @@ function handleEmail() {
     if (email.value === "") {
         emailError.innerHTML = "Email can't be empty";
         email.classList.add("error");
+    } else if (email.value.charAt(0) === "@") {
+        emailError.innerHTML = "@ isn't used in first";
+        email.classList.add("error");
     } else if (email.value.charAt(email.value.length - 4) === "@") {
-        emailError.innerHTML = "Email can't be empty";
+        emailError.innerHTML = "@ isn't used in last 4 charactor";
         email.classList.add("error");
     } else {
         emailError.innerHTML = "";
