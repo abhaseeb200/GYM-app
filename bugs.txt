@@ -1,2 +1,4 @@
 1. login mei. agir value fill kerne bad dobra emppty kerte hai tw wo already wala alert dyta hai jo ke nahi anna chahie (its means k validation pass nahi howi hai to submit button nahi chalna chahie)
 2. register mei. agir value fill kerne bad submit pe click our error aie validation wala. phr agir username or email ki value empty bhi hotti hai to tbhi 2nd time pe wo submit pas hojata hai jo nahi honna chahie
+3. create components for navbar & other if required
+4. workout page mei intial wala select nahi honna chahaie

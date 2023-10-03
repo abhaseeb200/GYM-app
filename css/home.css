@@ -5,8 +5,12 @@ body,html {
     margin: 0;
     padding: 0;  
     font-family: 'Poppins', sans-serif;
-
 }
+
+button,a, input {
+  font-family: 'Poppins', sans-serif;
+}
+
 .banner {
     position: relative;
     text-align: center;
@@ -31,8 +35,8 @@ body,html {
     background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
   }
   
-  /* Navbar Styles (No changes from the previous version) */
-  .navbar {
+  /* navbarCustom Styles (No changes from the previous version) */
+  .navbarCustom {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,27 +59,58 @@ body,html {
     border-radius: 5px;
     margin-left: 20px;
   }
+
+  #logOut-btn {
+    font-weight: 600;
+  }
   
   /* Start Working Button Styles (No changes from the previous version) */
   .start-button {
     background-color: #fff;
     color: #333;
-    padding: 12px 24px;
-    font-size: 18px;
+    padding: 11px 24px;
+    font-size: 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     z-index: 99;
+    font-weight: 600;
+    border: 2px solid #fff;
   }
 
   #showUsername {
     font-weight: 600;
     text-decoration: underline;
   }
+
+  button.add-exercise {
+    background: transparent;
+    outline: none;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 11px 24px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.header-content {
+  z-index: 99;
+}
+
+.badge {
+  font-weight: 400;
+}
+
+.pointer {
+  cursor: pointer;
+}
   
   /* Responsive Styles (No changes from the previous version) */
   @media (max-width: 768px) {
-    .navbar {
+    .navbarCustom {
         flex-direction: column;
         text-align: center;
     }
