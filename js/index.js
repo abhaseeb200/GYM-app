@@ -37,20 +37,32 @@ startWorking.addEventListener("click", () => {
 console.log(getDataAddExercise);
 addExerciseSubmit.addEventListener("click",()=> {
     let isAlreadyInsert = false;
+    let isEmpty = false;
     for (let i = 0; i < getDataAddExercise.length; i++) {    
         if (getDataAddExercise[i] === addExercise.value.toLowerCase()) {
             isAlreadyInsert = true;
         }
+        if (addExercise.value === "") {
+            isEmpty = true;
+        }
     }
-
-    if (!isAlreadyInsert) {
+    if (!isAlreadyInsert && !isEmpty) {
         getDataAddExercise.push(addExercise.value.toLowerCase())
         localStorage.setItem("exercise",JSON.stringify(getDataAddExercise));
         console.log(getDataAddExercise);
         addExercise.value = ""
-    } else {
-        console.log("Alread insert....")
+    } else if (isAlreadyInsert) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Already available",
+        })
+    } else if (isEmpty) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Empty is not allow",
+        })
     }
-    
 })
 

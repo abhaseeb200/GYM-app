@@ -107,7 +107,20 @@ button,a, input {
 .pointer {
   cursor: pointer;
 }
+
+.myList {
+  display: flex;
+  /* justify-content: space-between; */
+  border: 1px solid #ccc;
+  padding: 11px 25px;
+  background: #eee;
+  margin-top: 20px;
+}
   
+.myList span {
+  flex: 20%;
+}
+
   /* Responsive Styles (No changes from the previous version) */
   @media (max-width: 768px) {
     .navbarCustom {
