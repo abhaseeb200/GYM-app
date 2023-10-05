@@ -36,7 +36,7 @@ for (let i = 0; i < getExerciseData.length; i++) {
 selectWorkout.addEventListener("change", () => {
     myModal.show();
 })
-checkedForRest.addEventListener("click",()=> {
+checkedForRest.addEventListener("click", () => {
     if (checkedForRest.checked === true) {
         exerciseRestDiv.style.display = "block"
         let att = document.createAttribute("required")
@@ -47,7 +47,7 @@ checkedForRest.addEventListener("click",()=> {
         exerciseRest.removeAttribute("required");
     }
 })
-modalForm.addEventListener("submit",(event) => {
+modalForm.addEventListener("submit", (event) => {
     event.preventDefault();
     let selectedOption = selectWorkout.options[selectWorkout.selectedIndex];
     let elementDiv = document.createElement("div");
@@ -68,16 +68,16 @@ modalForm.addEventListener("submit",(event) => {
         exerciseRest.value = 0;
     }
     exerciseRest.value === ""
-    spanRest.innerHTML =  "Rest: " + exerciseRest.value + "s";
+    spanRest.innerHTML = "Rest: " + exerciseRest.value + "s";
     // spanCount.innerHTML = "1"
     elementDiv.classList.add("myList")
-    spanCount.classList.add("m-0","pe-2")
+    spanCount.classList.add("m-0", "pe-2")
     removeBtn.classList.add("btn-close")
     selectWorkout.remove(selectWorkout.selectedIndex)
     let id = Math.floor(Math.random() * 9999999)
     let temp = {
-        "id":id,
-        "name":selectedOption.innerHTML,
+        "id": id,
+        "name": selectedOption.innerHTML,
         "duration": exerciseDuration.value,
         "rest": exerciseRest.value,
     }
@@ -89,7 +89,7 @@ modalForm.addEventListener("submit",(event) => {
         newOption.innerHTML = selectedOption.innerHTML;
         selectWorkout.appendChild(newOption);
         elementDiv.parentNode.removeChild(elementDiv);
-        console.log(selectedOption.innerHTML,"======" ,id);
+        console.log(selectedOption.innerHTML, "======", id);
         excerciseData = excerciseData.filter(item => item.id !== id)
         console.log(excerciseData, "updated...")
     }
@@ -104,27 +104,36 @@ modalForm.addEventListener("submit",(event) => {
 
 
 //save workout excercise
-submitWorkout.addEventListener("click",()=> {
-    let newTemp = {
-        "workoutName": addWorkout.value,
-        "excerciseData": excerciseData,
-    }
-    newWorkout.push(newTemp)    
-    for (let i = 0; i < getUserData.length; i++) {
-        if (getUserData[i].username === getDataCurrentlyLogin.username) {
-            getUserData[i].myWorkout = newWorkout //create a new key name myWorkout
+submitWorkout.addEventListener("click", () => {
+    if (excerciseData.length === 0) {
+        alert("Please select excercise...")
+    } else {
+        let newTemp = {
+            "workoutName": addWorkout.value,
+            "excerciseData": excerciseData,
         }
+        newWorkout.push(newTemp)
+        for (let i = 0; i < getUserData.length; i++) {
+            if (getUserData[i].username === getDataCurrentlyLogin.username) {
+                getUserData[i].myWorkout = newWorkout //create a new key name myWorkout
+            }
+        }
+        localStorage.setItem("users", JSON.stringify(getUserData))
+        console.log(newWorkout, "--- new")
     }
-    localStorage.setItem("users", JSON.stringify(getUserData))
-    console.log(getUserData,"--- new")
-
     addWorkout.value = ""
+    for (let i = 0; i < excerciseData.length; i++) {
+        console.log(excerciseData[i].name)
+        let newOption = document.createElement("option");
+        newOption.value = excerciseData[i].name;
+        newOption.innerHTML = excerciseData[i].name;
+        selectWorkout.appendChild(newOption);
+    }
     excerciseData = []
-    // newWorkout = []
     let childElements = Array.from(childElement)
     childElements.forEach(item => {
         item.remove();
-      });
+    });
 })
 
 
