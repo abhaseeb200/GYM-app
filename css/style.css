@@ -108,3 +108,7 @@ input[type="submit"]:hover {
 span#exercise-counter {
   display: inline !important;
 }
+
+#workout-heading {
+  text-transform: capitalize;
+}

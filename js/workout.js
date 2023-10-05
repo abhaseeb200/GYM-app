@@ -1,7 +1,7 @@
 //dom selector
 let selectWorkout = document.getElementById("select-workout");
 let selectWorkoutList = document.getElementById("select-workout-list");
-let childElements = selectWorkoutList.getElementsByClassName("myList");
+let childElement = selectWorkoutList.getElementsByClassName("myList");
 let showUsername = document.getElementById("showUsername")
 let logOutButton = document.getElementById("logOut-btn")
 let exerciseSubmit = document.getElementById("exercise-submit")
@@ -14,7 +14,9 @@ let submitWorkout = document.getElementById("submit-workout")
 let addWorkout = document.getElementById("add-workout")
 let myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 let selectWorkoutListCount = 0;
-let workoutData = []
+let excerciseData = []
+let newWorkout = []
+
 
 
 //local storage
@@ -33,12 +35,6 @@ for (let i = 0; i < getExerciseData.length; i++) {
 }
 selectWorkout.addEventListener("change", () => {
     myModal.show();
-    for (let i = 0; i < childElements.length; i++) {
-        console.log(i + ": " + childElements[i].textContent)   
-    }
-    // console.log(Array.from(selectWorkoutList.children).indexOf(selectWorkoutList.children[2]))
-    // console.log(selectWorkout.value ,"=======", selectWorkout.selectedIndex)
-    // selectWorkoutListCount = selectWorkout.selectedIndex
 })
 checkedForRest.addEventListener("click",()=> {
     if (checkedForRest.checked === true) {
@@ -52,8 +48,8 @@ checkedForRest.addEventListener("click",()=> {
     }
 })
 modalForm.addEventListener("submit",(event) => {
-    let selectedOption = selectWorkout.options[selectWorkout.selectedIndex];
     event.preventDefault();
+    let selectedOption = selectWorkout.options[selectWorkout.selectedIndex];
     let elementDiv = document.createElement("div");
     let spanName = document.createElement("span");
     let spanCount = document.createElement("p");
@@ -78,35 +74,57 @@ modalForm.addEventListener("submit",(event) => {
     spanCount.classList.add("m-0","pe-2")
     removeBtn.classList.add("btn-close")
     selectWorkout.remove(selectWorkout.selectedIndex)
-    let i = 0;
-    for (i = 0; i < childElements.length; i++) {
-        console.log(i + ": " + childElements[i].textContent)   
-    }
+    let id = Math.floor(Math.random() * 9999999)
     let temp = {
+        "id":id,
         "name":selectedOption.innerHTML,
         "duration": exerciseDuration.value,
         "rest": exerciseRest.value,
     }
-    workoutData.push(temp)
+    excerciseData.push(temp)
+    console.log(excerciseData)
     removeBtn.onclick = () => {
         let newOption = document.createElement("option");
         newOption.value = selectedOption.innerHTML;
         newOption.innerHTML = selectedOption.innerHTML;
-        console.log(selectedOption.innerHTML);
         selectWorkout.appendChild(newOption);
         elementDiv.parentNode.removeChild(elementDiv);
+        console.log(selectedOption.innerHTML,"======" ,id);
+        excerciseData = excerciseData.filter(item => item.id !== id)
+        console.log(excerciseData, "updated...")
     }
     selectedOption.value = ""
     exerciseDuration.value = ""
     exerciseRest.value = ""
+    exerciseRestDiv.style.display = "none"
+    checkedForRest.checked = false
+    exerciseRest.removeAttribute("required");
     myModal.hide();
 })
 
 
 //save workout excercise
 submitWorkout.addEventListener("click",()=> {
-    console.log("workout name: ",addWorkout.value)
-    console.log("workout Data",workoutData)
+    let newTemp = {
+        "workoutName": addWorkout.value,
+        "excerciseData": excerciseData,
+    }
+    newWorkout.push(newTemp)    
+    for (let i = 0; i < getUserData.length; i++) {
+        if (getUserData[i].username === getDataCurrentlyLogin.username) {
+            getUserData[i].myWorkout = newWorkout //create a new key name myWorkout
+        }
+    }
+    localStorage.setItem("users", JSON.stringify(getUserData))
+    console.log(getUserData,"--- new")
+
+    addWorkout.value = ""
+    excerciseData = []
+    // newWorkout = []
+    let childElements = Array.from(childElement)
+    childElements.forEach(item => {
+        item.remove();
+      });
 })
 
 
@@ -125,6 +143,6 @@ if (getDataCurrentlyLogin?.username) {
 logOutButton.addEventListener("click", () => {
     console.log("Logout...");
     localStorage.removeItem("currentlyLogIn")
-    location.replace("./template/login.html");
+    location.replace("./login.html");
 })
 

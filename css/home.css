@@ -121,6 +121,14 @@ button,a, input {
   flex: 20%;
 }
 
+.workout-names {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 500;
+  text-transform: capitalize;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
   /* Responsive Styles (No changes from the previous version) */
   @media (max-width: 768px) {
     .navbarCustom {
