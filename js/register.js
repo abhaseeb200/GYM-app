@@ -194,6 +194,7 @@ function handleInput() {
                     text: 'Username already in used',
                 })                  
                 isUsernameAlreadyUsed = true;
+                //next code will not excute if they found same username
             } else if (getData[i].email === email.value.toLowerCase()) {
                 Swal.fire({
                     icon: 'error',

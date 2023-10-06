@@ -73,7 +73,7 @@ modalForm.addEventListener("submit", (event) => {
     if (exerciseRest.value === "") {
         exerciseRest.value = 0;
     }
-    exerciseRest.value === ""
+    // exerciseRest.value === ""
     spanRest.innerHTML = "Rest: " + exerciseRest.value + "s";
     // spanCount.innerHTML = "1"
     elementDiv.classList.add("myList")

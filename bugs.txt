@@ -14,9 +14,10 @@ Register/Login
 - handleInput(). Next code will not be excute if they found same username (code).
 
 Home
-- In 'add excercise' button if user close the tab fields values should be empty
-- Empty value should not be add. add validation process
-- In 'Start working' button change to myworkout.html
+- In 'add excercise' button if user close the tab fields values should be empty --- (FIXED)
+- Show sweet alert if add the excercise --- (FIXED)
+- Empty value should not be add. add validation process --- (FIXED)
+- In 'Start working' button change to workout.html --- (FIXED)
 - Loop should be break if found same excercise name
 
 Navbar

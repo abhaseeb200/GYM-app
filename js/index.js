@@ -3,7 +3,7 @@ let addExercise = document.getElementById("add-exercise-name")
 let addExerciseSubmit = document.getElementById("add-exercise-submit")
 let showUsername = document.getElementById("showUsername")
 let logOutButton = document.getElementById("logOut-btn")
-let startWorking = document.getElementById("start-working")
+let closeExercise = document.getElementById("close-exercise")
 
 //local storage selector
 let getDataCurrentlyLogin = JSON.parse(localStorage.getItem("currentlyLogIn"));
@@ -17,6 +17,10 @@ if (!getDataCurrentlyLogin) {
     showUsername.innerHTML = getDataCurrentlyLogin?.username
 }
 
+//show username
+showUsername.addEventListener("click",() => {
+    location.href = "./template/myworkout.html"
+})
 
 // logOut button
 logOutButton.addEventListener("click", () => {
@@ -25,9 +29,9 @@ logOutButton.addEventListener("click", () => {
     location.replace("./template/login.html");
 })
 
-//start working button
-startWorking.addEventListener("click", () => {
-    location.href = "./template/exerciseStart.html"
+//close excercise modal button 
+closeExercise.addEventListener("click", ()=> {
+    addExercise.value = ""
 })
 
 //add excercise name 
@@ -35,17 +39,25 @@ console.log(getDataAddExercise);
 addExerciseSubmit.addEventListener("click",()=> {
     let isAlreadyInsert = false;
     let isEmpty = false;
+    if (addExercise.value === "") {
+        isEmpty = true;
+    }
     for (let i = 0; i < getDataAddExercise.length; i++) {    
         if (getDataAddExercise[i] === addExercise.value.toLowerCase()) {
             isAlreadyInsert = true;
         }
-        if (addExercise.value === "") {
-            isEmpty = true;
-        }
     }
+    //add successfully
     if (!isAlreadyInsert && !isEmpty) {
         getDataAddExercise.push(addExercise.value.toLowerCase())
         localStorage.setItem("exercise",JSON.stringify(getDataAddExercise));
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Exercise name has been saved',
+            showConfirmButton: false,
+            timer: 1500
+        })
         console.log(getDataAddExercise);
         addExercise.value = ""
     } else if (isAlreadyInsert) {

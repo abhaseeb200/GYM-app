@@ -84,6 +84,7 @@ input {
 #showUsername {
   font-weight: 600;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 button.add-exercise {
@@ -135,6 +136,8 @@ a.logout-button:hover {
   text-transform: capitalize;
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
+
+
 
 /* Responsive Styles (No changes from the previous version) */
 @media (max-width: 768px) {
