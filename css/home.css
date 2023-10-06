@@ -1,99 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* Banner Styles */
-body,html {
-    margin: 0;
-    padding: 0;  
-    font-family: 'Poppins', sans-serif;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-button,a, input {
-  font-family: 'Poppins', sans-serif;
+button,
+a,
+input {
+  font-family: "Poppins", sans-serif;
 }
 
 .banner {
-    position: relative;
-    text-align: center;
-    background-image: url('../images/muscular-sportsman.jpg');
-    background-size: cover;
-    color: #fff;
-    height: 100vh; /* Full height of the viewport */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Background Overlay */
-  .banner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-  }
-  
-  /* navbarCustom Styles (No changes from the previous version) */
-  .navbarCustom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    padding: 10px 20px;
-    position: absolute;
-    top: 20px;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .logout-button {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    margin-left: 20px;
-  }
+  position: relative;
+  text-align: center;
+  background-image: url("../images/muscular-sportsman.jpg");
+  background-size: cover;
+  color: #fff;
+  height: 100vh; /* Full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  #logOut-btn {
-    font-weight: 600;
-  }
-  
-  /* Start Working Button Styles (No changes from the previous version) */
-  .start-button {
-    background-color: #fff;
-    color: #333;
-    padding: 11px 24px;
-    font-size: 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 99;
-    font-weight: 600;
-    border: 2px solid #fff;
-  }
+/* Background Overlay */
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+}
 
-  #showUsername {
-    font-weight: 600;
-    text-decoration: underline;
-  }
+/* navbarCustom Styles (No changes from the previous version) */
+.navbarCustom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  padding: 10px 20px;
+  position: absolute;
+  top: 20px;
+}
 
-  button.add-exercise {
-    background: transparent;
-    outline: none;
-    border: 2px solid #fff;
-    color: #fff;
-    padding: 11px 24px;
-    border-radius: 5px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-left: 10px;
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logout-button {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+#logOut-btn {
+  font-weight: 600;
+}
+
+/* Start Working Button Styles (No changes from the previous version) */
+.start-button {
+  background-color: #fff;
+  color: #333;
+  padding: 11px 24px;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 99;
+  font-weight: 600;
+  border: 2px solid #fff;
+}
+
+#showUsername {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+button.add-exercise {
+  background: transparent;
+  outline: none;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 11px 24px;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 10px;
 }
 
 .header-content {
@@ -116,9 +119,13 @@ button,a, input {
   background: #eee;
   margin-top: 20px;
 }
-  
+
 .myList span {
   flex: 20%;
+}
+
+a.logout-button:hover {
+  color: #fff !important;
 }
 
 .workout-names {
@@ -129,13 +136,13 @@ button,a, input {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
-  /* Responsive Styles (No changes from the previous version) */
-  @media (max-width: 768px) {
-    .navbarCustom {
-        flex-direction: column;
-        text-align: center;
-    }
-    .logout-button {
-        margin-top: 10px;
-    }
+/* Responsive Styles (No changes from the previous version) */
+@media (max-width: 768px) {
+  .navbarCustom {
+    flex-direction: column;
+    text-align: center;
   }
+  .logout-button {
+    margin-top: 10px;
+  }
+}

@@ -12,22 +12,28 @@ let exerciseRest = document.getElementById("exercise-rest")
 let modalForm = document.getElementById("modalForm")
 let submitWorkout = document.getElementById("submit-workout")
 let addWorkout = document.getElementById("add-workout")
+let errorAddWorkout = document.getElementById("error-add-workout")
 let myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 let selectWorkoutListCount = 0;
 let excerciseData = []
-let newWorkout = []
-
+let currentUserWorkout = ""
 
 
 //local storage
 let getDataCurrentlyLogin = JSON.parse(localStorage.getItem("currentlyLogIn"));
 let getExerciseData = JSON.parse(localStorage.getItem("exercise"))
 let getUserData = JSON.parse(localStorage.getItem("users"))
+for (let i = 0; i < getUserData?.length; i++) {
+    if (getUserData[i].username === getDataCurrentlyLogin.username) {
+        currentUserWorkout = getUserData[i].myWorkout
+    }
+}
+let newWorkout = currentUserWorkout ? currentUserWorkout : []
+console.log(newWorkout ,"=====","Excercise data") 
 
 
 //add workout exercise
-console.log(getExerciseData);
-for (let i = 0; i < getExerciseData.length; i++) {
+for (let i = 0; i < getExerciseData?.length; i++) {
     let option = document.createElement("option");
     option.value = getExerciseData[i]
     option.innerHTML = getExerciseData[i]
@@ -89,9 +95,9 @@ modalForm.addEventListener("submit", (event) => {
         newOption.innerHTML = selectedOption.innerHTML;
         selectWorkout.appendChild(newOption);
         elementDiv.parentNode.removeChild(elementDiv);
-        console.log(selectedOption.innerHTML, "======", id);
+        // console.log(selectedOption.innerHTML, "======", id);
         excerciseData = excerciseData.filter(item => item.id !== id)
-        console.log(excerciseData, "updated...")
+        // console.log(excerciseData, "updated...")
     }
     selectedOption.value = ""
     exerciseDuration.value = ""
@@ -105,9 +111,18 @@ modalForm.addEventListener("submit", (event) => {
 
 //save workout excercise
 submitWorkout.addEventListener("click", () => {
-    if (excerciseData.length === 0) {
-        alert("Please select excercise...")
+    //validation
+    if (addWorkout.value === "") {
+        addWorkout.style.borderColor="red";
+        errorAddWorkout.innerHTML = "Please required workout name"
+    } else if (excerciseData.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Please select atleast one excercise",
+        })
     } else {
+        //when validation has passed
         let newTemp = {
             "workoutName": addWorkout.value,
             "excerciseData": excerciseData,
@@ -120,22 +135,35 @@ submitWorkout.addEventListener("click", () => {
         }
         localStorage.setItem("users", JSON.stringify(getUserData))
         console.log(newWorkout, "--- new")
+    
+        //empty fields after submit successfully
+        for (let i = 0; i < excerciseData.length; i++) {
+            console.log(excerciseData[i].name)
+            let newOption = document.createElement("option");
+            newOption.value = excerciseData[i].name;
+            newOption.innerHTML = excerciseData[i].name;
+            selectWorkout.appendChild(newOption);
+        }
+        addWorkout.value = ""
+        excerciseData = []
+        let childElements = Array.from(childElement)
+        childElements.forEach(item => {
+            item.remove();
+        });
     }
-    addWorkout.value = ""
-    for (let i = 0; i < excerciseData.length; i++) {
-        console.log(excerciseData[i].name)
-        let newOption = document.createElement("option");
-        newOption.value = excerciseData[i].name;
-        newOption.innerHTML = excerciseData[i].name;
-        selectWorkout.appendChild(newOption);
-    }
-    excerciseData = []
-    let childElements = Array.from(childElement)
-    childElements.forEach(item => {
-        item.remove();
-    });
 })
 
+
+//workout name error validation
+addWorkout.addEventListener("input",()=> {
+    if (addWorkout.value === "") {
+        addWorkout.style.borderColor="red";
+        errorAddWorkout.innerHTML = "Please required workout name"
+    } else {
+        addWorkout.style.removeProperty("border-color");
+        errorAddWorkout.innerHTML = ""
+    }
+})
 
 // currently Login user
 console.log(getDataCurrentlyLogin);

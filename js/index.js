@@ -9,15 +9,12 @@ let startWorking = document.getElementById("start-working")
 let getDataCurrentlyLogin = JSON.parse(localStorage.getItem("currentlyLogIn"));
 let getDataAddExercise = localStorage.getItem("exercise") ? JSON.parse(localStorage.getItem("exercise")) : []
 
-// currently Login user
-console.log(getDataCurrentlyLogin);
-console.log(history.length,"History length")
-if (getDataCurrentlyLogin?.username) {
-    console.log("login already")
-    showUsername.innerHTML = getDataCurrentlyLogin?.username
+
+//check if current user is logout
+if (!getDataCurrentlyLogin) {
+    location.replace("./template/login.html")
 } else {
-    console.log("nott")
-    // location.replace("./template/login.html")
+    showUsername.innerHTML = getDataCurrentlyLogin?.username
 }
 
 

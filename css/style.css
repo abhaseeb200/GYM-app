@@ -107,8 +107,14 @@ input[type="submit"]:hover {
 
 span#exercise-counter {
   display: inline !important;
+  font-size: 27px;
+  font-weight: 600;
 }
 
-#workout-heading {
+#workout-heading, #exercise-heading {
   text-transform: capitalize;
+}
+
+#time-count-text {
+  display: inline !important;
 }
