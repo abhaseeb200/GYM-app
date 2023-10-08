@@ -9,49 +9,64 @@ let excerciseHeading = document.getElementById("exercise-heading")
 let exerciseImage = document.getElementById("exercise-image")
 let timeCountHeading = document.getElementById("time-count-text")
 let showUsername = document.getElementById("showUsername")
-let myModal = new bootstrap.Modal(document.getElementById('exampleModal'),{
+let histroyBack = document.getElementById("histroy-back")
+let myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
     keyboard: false
 })
 let getStartWorkout = ""
 
 //get workout data
-for (let i = 0; i < getUserData?.length; i++) {
-    if (getUserData[i].username === getDataCurrentlyLogin.username) {
-        getStartWorkout = getUserData[i].startWorkout;
-    }
-}
-console.log(getStartWorkout);
+getStartWorkout = getDataCurrentlyLogin.startWorkout
+console.log(getStartWorkout)
 
 //check if their is not workout
 if (!getStartWorkout) {
     myModal.show();
+    histroyBack.addEventListener("click", () => {
+        history.back()
+    })
 } else {
     let i = 0;
     let exCountUpdate = 3
     function startInterval() {
         if (i < getStartWorkout?.excercise?.length) {
-            console.log(getStartWorkout.excercise[i], "=====",i);
-            workoutHeading.innerHTML = "Workout: " + getStartWorkout.workoutName
-            excerciseHeading.innerHTML = getStartWorkout.excercise[i].name
-            exerciseImage.src = "../images/man-lifting-barbell.gif"
-            timeCountHeading.innerHTML = "Time Count:"
-            exerciseCounterDisplay.innerHTML = getStartWorkout.excercise[i].duration 
-            exCountUpdate = getStartWorkout.excercise[i].duration;
-            let interval = setInterval(() => {
-                exCountUpdate--;
-                if (exCountUpdate === 0) {
-                    clearInterval(interval);
-                    //rest
-                    if (getStartWorkout.excercise[i].rest > 0) {
-                        isRest()
-                    } else {
-                        i++;
-                        startInterval();
+            console.log(getStartWorkout.excercise[i].isComplete, i ,"new data ====")
+            if (!getStartWorkout.excercise[i].isComplete) {
+                console.log(".....False only....", "======", i)
+
+                //DOM change
+                workoutHeading.innerHTML = "Workout: " + getStartWorkout.workoutName
+                excerciseHeading.innerHTML = getStartWorkout.excercise[i].name
+                exerciseImage.src = "../images/man-lifting-barbell.gif"
+                timeCountHeading.innerHTML = "Time Count:"
+                exerciseCounterDisplay.innerHTML = getStartWorkout.excercise[i].duration
+                exCountUpdate = getStartWorkout.excercise[i].duration;
+                
+                //Interval time
+                let interval = setInterval(() => {
+                    exCountUpdate--;
+                    if (exCountUpdate === 0) {
+                        clearInterval(interval);
+                        
+                        //check if has Rest
+                        if (getStartWorkout.excercise[i].rest > 0) {
+                            isRest()
+                        } else {
+                            getStartWorkout.excercise[i].isComplete = true
+                            localStorage.setItem("currentlyLogIn", JSON.stringify(getDataCurrentlyLogin))
+                            i++;
+                            startInterval();
+                        }
                     }
-                }
-                exerciseCounterDisplay.innerHTML = exCountUpdate;
-            }, 1000);
+                    exerciseCounterDisplay.innerHTML = exCountUpdate;
+                }, 1000);
+            } else {
+                //isComplete is True...
+                i++
+                startInterval();
+            }
         } else {
+            //All exercise is done.
             isBackToHome();
         }
     }
@@ -61,11 +76,14 @@ if (!getStartWorkout) {
         console.log("rest found....")
         workoutHeading.innerHTML = "Resting Time"
         exerciseImage.src = "../images/exhausted-runner.png"
+        timeCountHeading.innerHTML = "Time Count:"
         exCountUpdate = getStartWorkout.excercise[i].rest
         let interval = setInterval(() => {
             exCountUpdate--;
             if (exCountUpdate === 0) {
                 clearInterval(interval);
+                getStartWorkout.excercise[i].isComplete = true
+                localStorage.setItem("currentlyLogIn",JSON.stringify(getDataCurrentlyLogin))
                 i++
                 startInterval();
             }
@@ -76,19 +94,20 @@ if (!getStartWorkout) {
     function isBackToHome() {
         exCountUpdate = 3
         workoutHeading.innerHTML = "Back To Home"
-        excerciseHeading.innerHTML = ""
+        excerciseHeading.innerHTML = "All exercise is done"
+        timeCountHeading.innerHTML = "Time Count:"
         exerciseImage.src = ""
         exerciseCounterDisplay.innerHTML = exCountUpdate
 
         let interval = setInterval(() => {
             exCountUpdate--;
             if (exCountUpdate === 0) {
-                location.href = "../index.html"
+                location.replace("../index.html")   
                 clearInterval(interval);
             }
             exerciseCounterDisplay.innerHTML = exCountUpdate
         }, 1000)
-    }   
+    }
 }
 
 

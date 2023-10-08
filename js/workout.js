@@ -13,7 +13,8 @@ let modalForm = document.getElementById("modalForm")
 let submitWorkout = document.getElementById("submit-workout")
 let addWorkout = document.getElementById("add-workout")
 let errorAddWorkout = document.getElementById("error-add-workout")
-let myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+let exampleModal = document.getElementById('exampleModal')
+let myModal = new bootstrap.Modal(exampleModal)
 let selectWorkoutListCount = 0;
 let excerciseData = []
 let currentUserWorkout = ""
@@ -29,7 +30,34 @@ for (let i = 0; i < getUserData?.length; i++) {
     }
 }
 let newWorkout = currentUserWorkout ? currentUserWorkout : []
-console.log(newWorkout ,"=====","Excercise data") 
+console.log(newWorkout, "=====", "Excercise data")
+
+
+// currently Login user
+console.log(getDataCurrentlyLogin);
+if (getDataCurrentlyLogin?.username) {
+    console.log("login already")
+    showUsername.innerHTML = getDataCurrentlyLogin?.username
+} else {
+    console.log("noo accont found")
+    location.replace("../template/login.html")
+}
+
+//Get the workout length
+for (let i = 0; i < getUserData.length; i++) {
+    if (getUserData[i]?.username === getDataCurrentlyLogin?.username) {
+        myWorkoutLength = getUserData[i]?.myWorkout?.length
+        break
+    }
+}
+if (myWorkoutLength) {
+    showUsername.innerHTML += ` (${myWorkoutLength})`
+}
+
+//show-username click to profile
+showUsername.addEventListener("click", () => {
+    location.href = "./myworkout.html"
+})
 
 
 //add workout exercise
@@ -113,7 +141,7 @@ modalForm.addEventListener("submit", (event) => {
 submitWorkout.addEventListener("click", () => {
     //validation
     if (addWorkout.value === "") {
-        addWorkout.style.borderColor="red";
+        addWorkout.style.borderColor = "red";
         errorAddWorkout.innerHTML = "Please required workout name"
     } else if (excerciseData.length === 0) {
         Swal.fire({
@@ -135,7 +163,27 @@ submitWorkout.addEventListener("click", () => {
         }
         localStorage.setItem("users", JSON.stringify(getUserData))
         console.log(newWorkout, "--- new")
-    
+
+        //update the length with username
+        for (let i = 0; i < getUserData.length; i++) {
+            if (getUserData[i]?.username === getDataCurrentlyLogin?.username) {
+                myWorkoutLength = getUserData[i]?.myWorkout?.length
+                break
+            }
+        }
+        if (myWorkoutLength) {
+            showUsername.innerHTML = `${getDataCurrentlyLogin?.username} (${myWorkoutLength})`
+        }
+
+        //sweath alert for successful saved
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Workout has been saved',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         //empty fields after submit successfully
         for (let i = 0; i < excerciseData.length; i++) {
             console.log(excerciseData[i].name)
@@ -153,27 +201,27 @@ submitWorkout.addEventListener("click", () => {
     }
 })
 
+//close excercise modal button
+exampleModal.addEventListener('hidden.bs.modal', function () {
+    // let selectedOption = selectWorkout.options[selectWorkout.selectedIndex];
+    selectWorkout.selectedIndex = 0
+    exerciseDuration.value = ""
+    exerciseRest.value = ""
+    exerciseRestDiv.style.display = "none"
+    checkedForRest.checked = false
+    exerciseRest.removeAttribute("required");
+});
 
 //workout name error validation
-addWorkout.addEventListener("input",()=> {
+addWorkout.addEventListener("input", () => {
     if (addWorkout.value === "") {
-        addWorkout.style.borderColor="red";
+        addWorkout.style.borderColor = "red";
         errorAddWorkout.innerHTML = "Please required workout name"
     } else {
         addWorkout.style.removeProperty("border-color");
         errorAddWorkout.innerHTML = ""
     }
 })
-
-// currently Login user
-console.log(getDataCurrentlyLogin);
-if (getDataCurrentlyLogin?.username) {
-    console.log("login already")
-    showUsername.innerHTML = getDataCurrentlyLogin?.username
-} else {
-    console.log("noo accont found")
-    location.replace("../template/login.html")
-}
 
 
 // logOut button

@@ -10,16 +10,6 @@ button, a, input {
   font-family: 'Poppins', sans-serif;
 }
 
-/* .container {
-  width: 40%;
-  max-width: 1280px;
-  margin: 0 auto;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-} */
-
-
 .row {
   display: flex;
   flex-wrap:wrap;
@@ -117,4 +107,24 @@ span#exercise-counter {
 
 #time-count-text {
   display: inline !important;
+}
+
+
+@media (max-width:500px) {
+  .row {
+    flex-direction:column-reverse
+  }
+  .col-4 , .col-8 {
+    width: 100%;
+    flex: 100%;
+  }
+
+  .container img{
+    margin: 0;
+    height:100%;
+  }
+
+  .form-container {
+    padding: 60px 30px;
+  }
 }

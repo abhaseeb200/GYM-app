@@ -4,7 +4,7 @@ let showWorkoutName = document.getElementById("workoutName")
 let logOutButton = document.getElementById("logOut-btn")
 let startWorkout = document.getElementById("start-workout")
 let showUsername = document.getElementById("showUsername")
-
+let myWorkoutLength = 0
 
 //local storage
 let getUserData = JSON.parse(localStorage.getItem("users"))
@@ -15,10 +15,12 @@ let currentlyUserData = "";
 for (let i = 0; i < getUserData?.length; i++) {
     if (getUserData[i].username === getDataCurrentlyLogin.username) {
         myWorkout = getUserData[i].myWorkout;
+        myWorkoutLength = myWorkout?.length
         currentlyUserData = getUserData[i];
     }
 }
-console.log(myWorkout);
+console.log(myWorkout,"=====",);
+console.log(currentlyUserData)
 
 
 //check if current user is logout
@@ -28,6 +30,10 @@ if (!getDataCurrentlyLogin) {
     showUsername.innerHTML = getDataCurrentlyLogin?.username
 }
 
+//Get the workout length
+if (myWorkoutLength) {
+    showUsername.innerHTML += ` (${myWorkoutLength})`    
+}
 
 //craete table elements
 for (let i = 0; i < myWorkout?.length; i++) {
@@ -90,6 +96,7 @@ for (let i = 0; i < myWorkout?.length; i++) {
                 "name":myWorkout[i].excerciseData[j].name,
                 "duration":myWorkout[i].excerciseData[j].duration,
                 "rest":myWorkout[i].excerciseData[j].rest,
+                "isComplete": false,
             }
             startExcerciseData.push(temp)
          } else {
@@ -112,12 +119,8 @@ for (let i = 0; i < myWorkout?.length; i++) {
                     "excercise":startExcerciseData,
                 }
                 console.log(startWorkoutData)
-                for (let i = 0; i < getUserData.length; i++) {
-                    if (getUserData[i].username === getDataCurrentlyLogin.username) {
-                        getUserData[i].startWorkout = startWorkoutData //create a new key name myWorkout
-                    }
-                }
-                localStorage.setItem("users", JSON.stringify(getUserData))
+                getDataCurrentlyLogin.startWorkout = startWorkoutData //create a new key name myWorkout
+                localStorage.setItem("currentlyLogIn", JSON.stringify(getDataCurrentlyLogin))
                 //empty field if successfully submit
                 let checkboxes = document.querySelectorAll('.form-check-input');
                 checkboxes.forEach(checkbox => {
@@ -154,7 +157,8 @@ for (let i = 0; i < myWorkout?.length; i++) {
         <td>${restTotalTime +" sec"}</td>
     `
 
-    showMyWorkoutTable.appendChild(table)
+    showMyWorkoutTable.prepend(btnStartWorkout)
+    showMyWorkoutTable.prepend(table)
     table.appendChild(thead)
     table.appendChild(body)
     thead.appendChild(trHead1)
@@ -165,7 +169,6 @@ for (let i = 0; i < myWorkout?.length; i++) {
     trHead2.appendChild(thHead2Duration)
     trHead2.appendChild(thHead2Rest)
     body.appendChild(trBodySummary)
-    showMyWorkoutTable.appendChild(btnStartWorkout)
 }
 
 

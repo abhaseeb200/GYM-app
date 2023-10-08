@@ -31,16 +31,18 @@ form.addEventListener("submit", (e) => {
 });
 
 //Username
-username.addEventListener("input",()=>{
+username.addEventListener("input", () => {
     handleUsername()
 })
-function handleUsername(){
+function handleUsername() {
     if (username.value === "") {
         usernameError.innerHTML = "Username can't be empty";
         username.classList.add("error");
+        usernameValidationPassed = false;
     } else if (username.value.length <= 3) {
         usernameError.innerHTML = "Username should be greater than 3";
         username.classList.add("error");
+        usernameValidationPassed = false;
     } else {
         usernameError.innerHTML = "";
         username.classList.remove("error");
@@ -49,16 +51,25 @@ function handleUsername(){
 }
 
 //password
-password.addEventListener("input",()=>{
+password.addEventListener("input", () => {
     handlePassword();
 })
 function handlePassword() {
+    if (password.value === "") {
+        passwordError.innerHTML = "Password can't be empty";
+        password.classList.add("error");
+        return
+    } else if (password.value.length < 6) {
+        passwordError.innerHTML = "Password should be greater than 6";
+        password.classList.add("error");
+        return
+    }
     let isSpecialChar = false;
     let isNumber = false;
     let isAlphabets = false;
     for (let i = 0; i < password.value.length; i++) {
         let charCode = password.value.charCodeAt(i);
-        if (charCode >= 33 && charCode <= 47 || charCode >=58 && charCode <= 64) {
+        if (charCode >= 33 && charCode <= 47 || charCode >= 58 && charCode <= 64) {
             isSpecialChar = true;
         } else if (charCode >= 48 && charCode <= 57) {
             isNumber = true;
@@ -66,63 +77,88 @@ function handlePassword() {
             isAlphabets = true;
         }
     }
-    if (password.value === "") {
-        passwordError.innerHTML = "Password can't be empty";
+    if (!isAlphabets) {
+        passwordError.innerHTML = "Password required Alphabats";
         password.classList.add("error");
-    } else if (password.value.length < 6) {
-        passwordError.innerHTML = "Password should be greater than 6";
+        passwordValidationPassed = false;
+    } else if (!isNumber) {
+        passwordError.innerHTML = "Password required Numbers"
         password.classList.add("error");
-    } else if (!isSpecialChar || !isNumber || !isAlphabets) {
-        passwordError.innerHTML = "Password combination of ALPHABATS, NUMBERS, SPECIAL CHARACTERS";
-        console.log("special:",isSpecialChar, "number:",isNumber,"alphabets:",isAlphabets)
+        passwordValidationPassed = false;
+    } else if (!isSpecialChar) {
+        passwordError.innerHTML = "Password required Special Character";
         password.classList.add("error");
+        passwordValidationPassed = false;
     } else {
         passwordError.innerHTML = "";
         password.classList.remove("error");
-        console.log("special:",isSpecialChar, "number:",isNumber,"alphabets:",isAlphabets)
+        console.log("special:", isSpecialChar, "number:", isNumber, "alphabets:", isAlphabets)
         passwordValidationPassed = true;
     }
 }
 
 function handleInput() {
+    let usernameIsEmpty = false;
+    let passwordIsEmpty = false;
+    if (username.value === "") {
+        usernameError.innerHTML = "Username can't be empty";
+        username.classList.add("error");
+        usernameIsEmpty = true
+    }
+    if (password.value === "") {
+        passwordError.innerHTML = "Password can't be empty";
+        password.classList.add("error");
+        passwordIsEmpty = true;
+    }
+    //less code execute
+    if (usernameIsEmpty || passwordIsEmpty) {
+        return
+    }
+
     let getData = JSON.parse(getUsers);
     let isUsernameCorrect = false;
     let isPasswordCorrect = false;
-    handleUsername();
-    handlePassword()
     if (usernameValidationPassed && passwordValidationPassed) {
+        console.log(usernameValidationPassed, passwordValidationPassed)
         //check username and password
         for (let i = 0; i < getData?.length; i++) {
             if (getData[i].username === username.value.toLowerCase()) {
                 isUsernameCorrect = true;
-            } 
+            }
             if (getData[i].password === password.value) {
                 isPasswordCorrect = true;
             }
         }
-
+        console.log(isUsernameCorrect, isPasswordCorrect)
         //change sweet alert text if username or password are incorrect
         if (!isUsernameCorrect) {
             alertTextError = "Username is not found"
         } else if (!isPasswordCorrect) {
             alertTextError = "Password is incorrect"
         }
-        
+
         //Login if both are correct
         if (isUsernameCorrect && isPasswordCorrect) {
             console.log("Successfully login...")
             const newCurrentLogin = {
                 username: username.value.toLowerCase(),
             }
-            localStorage.setItem("currentlyLogIn",JSON.stringify(newCurrentLogin))
-            // window.location.href = "../index.html";
-            location.replace("../index.html")
+            localStorage.setItem("currentlyLogIn", JSON.stringify(newCurrentLogin))
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'LogIn account successful',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(function () {
+                location.replace("../index.html")
+            }, 1500);
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: alertTextError,
-                // footer: '<a href="">Why do I have this issue?</a>'
             })
         }
     }

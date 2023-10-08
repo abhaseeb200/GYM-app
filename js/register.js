@@ -44,17 +44,19 @@ form.addEventListener("submit", (e) => {
 });
 
 //Username
-username.addEventListener("input",()=>{
+username.addEventListener("input", () => {
     handleUsername()
 })
 
-function handleUsername(){
+function handleUsername() {
     if (username.value === "") {
         usernameError.innerHTML = "Username can't be empty";
         username.classList.add("error");
+        usernameValidationPassed = false
     } else if (username.value.length <= 3) {
         usernameError.innerHTML = "Username should be greater than 3";
         username.classList.add("error");
+        usernameValidationPassed = false
     } else {
         usernameError.innerHTML = "";
         username.classList.remove("error");
@@ -64,20 +66,28 @@ function handleUsername(){
 
 
 //Email...
-email.addEventListener("input", ()=> {
+email.addEventListener("input", () => {
     handleEmail();
 })
 
 function handleEmail() {
+    let charCode = email.value.charCodeAt(0);
     if (email.value === "") {
         emailError.innerHTML = "Email can't be empty";
         email.classList.add("error");
+        emailValidationPassed = false;
+    } else if (!(charCode >= 65 && charCode <= 90 || charCode >= 97 && charCode <= 122)) {
+        emailError.innerHTML = "Email must start with a letter";
+        email.classList.add("error");
+        emailValidationPassed = false;
     } else if (email.value.charAt(0) === "@") {
         emailError.innerHTML = "@ isn't used in first";
         email.classList.add("error");
+        emailValidationPassed = false;
     } else if (email.value.charAt(email.value.length - 4) === "@") {
         emailError.innerHTML = "@ isn't used in last 4 charactor";
         email.classList.add("error");
+        emailValidationPassed = false;
     } else {
         emailError.innerHTML = "";
         email.classList.remove("error");
@@ -86,17 +96,25 @@ function handleEmail() {
 }
 
 //password
-password.addEventListener("input",()=>{
+password.addEventListener("input", () => {
     handlePassword();
 })
-
 function handlePassword() {
+    if (password.value === "") {
+        passwordError.innerHTML = "Password can't be empty";
+        password.classList.add("error");
+        return
+    } else if (password.value.length < 6) {
+        passwordError.innerHTML = "Password should be greater than 6";
+        password.classList.add("error");
+        return
+    }
     let isSpecialChar = false;
     let isNumber = false;
     let isAlphabets = false;
     for (let i = 0; i < password.value.length; i++) {
         let charCode = password.value.charCodeAt(i);
-        if (charCode >= 33 && charCode <= 47 || charCode >=58 && charCode <= 64) {
+        if (charCode >= 33 && charCode <= 47 || charCode >= 58 && charCode <= 64) {
             isSpecialChar = true;
         } else if (charCode >= 48 && charCode <= 57) {
             isNumber = true;
@@ -104,26 +122,28 @@ function handlePassword() {
             isAlphabets = true;
         }
     }
-    if (password.value === "") {
-        passwordError.innerHTML = "Password can't be empty";
+    if (!isAlphabets) {
+        passwordError.innerHTML = "Password required Alphabats";
         password.classList.add("error");
-    } else if (password.value.length < 6) {
-        passwordError.innerHTML = "Password should be greater than 6";
+        passwordValidationPassed = false;
+    } else if (!isNumber) {
+        passwordError.innerHTML = "Password required Numbers"
         password.classList.add("error");
-    } else if (!isSpecialChar || !isNumber || !isAlphabets) {
-        passwordError.innerHTML = "Password combination of ALPHABATS, NUMBERS, SPECIAL CHARACTERS";
-        console.log("special:",isSpecialChar, "number:",isNumber,"alphabets:",isAlphabets)
+        passwordValidationPassed = false;
+    } else if (!isSpecialChar) {
+        passwordError.innerHTML = "Password required Special Character";
         password.classList.add("error");
+        passwordValidationPassed = false;
     } else {
         passwordError.innerHTML = "";
         password.classList.remove("error");
-        console.log("special:",isSpecialChar, "number:",isNumber,"alphabets:",isAlphabets)
+        console.log("special:", isSpecialChar, "number:", isNumber, "alphabets:", isAlphabets)
         passwordValidationPassed = true;
     }
 }
 
 //match password
-conformPassword.addEventListener("input",()=>{
+conformPassword.addEventListener("input", () => {
     handleConformPassword();
 })
 
@@ -131,9 +151,11 @@ function handleConformPassword() {
     if (conformPassword.value === "") {
         conformPasswordError.innerHTML = "Password can't be empty";
         conformPassword.classList.add("error");
+        conformPasswordValidationPassed = false;
     } else if (conformPassword.value !== password.value) {
         conformPasswordError.innerHTML = "Password does't match";
         conformPassword.classList.add("error");
+        conformPasswordValidationPassed = false;
     } else {
         conformPasswordError.innerHTML = "";
         conformPassword.classList.remove("error");
@@ -142,17 +164,19 @@ function handleConformPassword() {
 }
 
 //Gender
-maleRadio.addEventListener("change",()=>{
+maleRadio.addEventListener("change", () => {
     handleGender();
 })
 
-femaleRadio.addEventListener("change",()=>{
+femaleRadio.addEventListener("change", () => {
     handleGender();
 })
 
 function handleGender() {
     if (!maleRadio.checked && !femaleRadio.checked) {
         genderError.innerHTML = "Gender should be checked";
+        genderValidationPassed = false;
+        return
     } else {
         genderError.innerHTML = "";
         genderValidationPassed = true;
@@ -166,21 +190,44 @@ function handleGender() {
 }
 
 function handleInput() {
-    handleUsername()
-    handleEmail()
-    handlePassword()
-    handleConformPassword()
-    handleGender()
+    let usernameIsEmpty = false;
+    let emailIsEmpty = false;
+    let passwordIsEmpty = false;
+    let conformPasswordIsEmpty = false;
+    let genderIsEmpty = false;
+    if (username.value === "") {
+        usernameError.innerHTML = "Username can't be empty";
+        username.classList.add("error");
+        usernameIsEmpty = true
+    }
+    if (email.value === "") {
+        emailError.innerHTML = "Email can't be empty";
+        email.classList.add("error");
+        emailIsEmpty = true
+    }
+    if (password.value === "") {
+        passwordError.innerHTML = "Password can't be empty";
+        password.classList.add("error");
+        passwordIsEmpty = true;
+    }
+    if (conformPassword.value === "") {
+        conformPasswordError.innerHTML = "conform Password can't be empty";
+        conformPassword.classList.add("error");
+        conformPasswordIsEmpty = true;
+    }
+    if (!maleRadio.checked && !femaleRadio.checked) {
+        genderError.innerHTML = "Gender should be checked";
+        genderIsEmpty = true;
+    }
+
+    //less code execute
+    if (usernameIsEmpty || passwordIsEmpty || emailIsEmpty || conformPasswordIsEmpty || genderIsEmpty) {
+        return
+    }
 
     //All Validation Passed, Now store in local storage
     if (usernameValidationPassed && emailValidationPassed && passwordValidationPassed && conformPasswordValidationPassed && genderValidationPassed) {
         console.log("All validation Passed");
-        const newUser = {
-            username: username.value.toLowerCase(),
-            email: email.value.toLowerCase(),
-            password: password.value,
-            gender: genderCheckedValue,
-        }
 
         //check username or email is already in used...
         let getData = JSON.parse(getUsers)
@@ -192,28 +239,44 @@ function handleInput() {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Username already in used',
-                })                  
+                })
                 isUsernameAlreadyUsed = true;
+                break
                 //next code will not excute if they found same username
             } else if (getData[i].email === email.value.toLowerCase()) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Email already registered',
-                })  
+                })
                 isEmailAlreadyUsed = true;
+                break
             }
         }
 
-        if(!isUsernameAlreadyUsed && !isEmailAlreadyUsed) {
+        if (!isUsernameAlreadyUsed && !isEmailAlreadyUsed) {
+            const newUser = {
+                username: username.value.toLowerCase(),
+                email: email.value.toLowerCase(),
+                password: password.value,
+                gender: genderCheckedValue,
+            }
             users.push(newUser)
-            localStorage.setItem("users",JSON.stringify(users));
+            localStorage.setItem("users", JSON.stringify(users));
             const newLogin = {
                 username: username.value.toLowerCase(),
             }
-            localStorage.setItem("currentlyLogIn",JSON.stringify(newLogin))
-            // location.href = "../index.html"
-            location.replace("../index.html")
+            localStorage.setItem("currentlyLogIn", JSON.stringify(newLogin))
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Register account successful',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(function () {
+                location.replace("../index.html")
+            }, 1500);
         }
     }
 }

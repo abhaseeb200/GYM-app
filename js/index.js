@@ -4,23 +4,38 @@ let addExerciseSubmit = document.getElementById("add-exercise-submit")
 let showUsername = document.getElementById("showUsername")
 let logOutButton = document.getElementById("logOut-btn")
 let closeExercise = document.getElementById("close-exercise")
+let myModal = document.getElementById('exampleModal')
+let myWorkoutLength = 0
 
 //local storage selector
 let getDataCurrentlyLogin = JSON.parse(localStorage.getItem("currentlyLogIn"));
 let getDataAddExercise = localStorage.getItem("exercise") ? JSON.parse(localStorage.getItem("exercise")) : []
-
+let getUsersData = JSON.parse(localStorage.getItem("users"));
+console.log(getUsersData)
 
 //check if current user is logout
 if (!getDataCurrentlyLogin) {
     location.replace("./template/login.html")
 } else {
-    showUsername.innerHTML = getDataCurrentlyLogin?.username
+    console.log(getDataCurrentlyLogin.username)
+    showUsername.innerHTML += getDataCurrentlyLogin?.username
 }
 
-//show username
-showUsername.addEventListener("click",() => {
+//show-username click to profile
+showUsername.addEventListener("click", () => {
     location.href = "./template/myworkout.html"
 })
+
+//Get the workout length
+for (let i = 0; i < getUsersData.length; i++) {
+    if (getUsersData[i]?.username === getDataCurrentlyLogin?.username) {
+        myWorkoutLength = getUsersData[i]?.myWorkout?.length
+        break
+    }    
+}
+if (myWorkoutLength) {
+    showUsername.innerHTML += ` (${myWorkoutLength})`    
+}
 
 // logOut button
 logOutButton.addEventListener("click", () => {
@@ -29,28 +44,31 @@ logOutButton.addEventListener("click", () => {
     location.replace("./template/login.html");
 })
 
-//close excercise modal button 
-closeExercise.addEventListener("click", ()=> {
+
+//close excercise modal button
+myModal.addEventListener('hidden.bs.modal', function () {
     addExercise.value = ""
-})
+});
+
 
 //add excercise name 
 console.log(getDataAddExercise);
-addExerciseSubmit.addEventListener("click",()=> {
+addExerciseSubmit.addEventListener("click", () => {
     let isAlreadyInsert = false;
     let isEmpty = false;
     if (addExercise.value === "") {
         isEmpty = true;
     }
-    for (let i = 0; i < getDataAddExercise.length; i++) {    
+    for (let i = 0; i < getDataAddExercise.length; i++) {
         if (getDataAddExercise[i] === addExercise.value.toLowerCase()) {
             isAlreadyInsert = true;
+            break
         }
     }
     //add successfully
     if (!isAlreadyInsert && !isEmpty) {
         getDataAddExercise.push(addExercise.value.toLowerCase())
-        localStorage.setItem("exercise",JSON.stringify(getDataAddExercise));
+        localStorage.setItem("exercise", JSON.stringify(getDataAddExercise));
         Swal.fire({
             position: 'center',
             icon: 'success',

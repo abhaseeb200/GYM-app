@@ -69,6 +69,7 @@ input {
 
 /* Start Working Button Styles (No changes from the previous version) */
 .start-button {
+  text-decoration:none;
   background-color: #fff;
   color: #333;
   padding: 11px 24px;
@@ -137,6 +138,14 @@ a.logout-button:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
+a#logOut-btn {
+  transition:.3s all ease;
+}
+
+a#logOut-btn:hover {
+  background: #fff;
+  color: #000 !important;
+}
 
 
 /* Responsive Styles (No changes from the previous version) */
@@ -147,5 +156,13 @@ a.logout-button:hover {
   }
   .logout-button {
     margin-top: 10px;
+    display: block;
+    margin-left: 0;
+  }
+  button.add-exercise {
+    width:100%;
+    display:block;
+    margin-top: 25px;
+    margin-left: 0;
   }
 }
