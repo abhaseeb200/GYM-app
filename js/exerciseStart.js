@@ -1,6 +1,12 @@
+
 //local storage
 let getUserData = JSON.parse(localStorage.getItem("users"))
 let getDataCurrentlyLogin = JSON.parse(localStorage.getItem("currentlyLogIn"));
+
+//check if current user is logout
+if (!getDataCurrentlyLogin) {
+    location.replace("../template/login.html")
+}
 
 //DOM selector
 let exerciseCounterDisplay = document.getElementById("exercise-counter")
@@ -17,7 +23,6 @@ let getStartWorkout = ""
 
 //get workout data
 getStartWorkout = getDataCurrentlyLogin.startWorkout
-console.log(getStartWorkout)
 
 //check if their is not workout
 if (!getStartWorkout) {
@@ -30,10 +35,7 @@ if (!getStartWorkout) {
     let exCountUpdate = 3
     function startInterval() {
         if (i < getStartWorkout?.excercise?.length) {
-            console.log(getStartWorkout.excercise[i].isComplete, i ,"new data ====")
             if (!getStartWorkout.excercise[i].isComplete) {
-                console.log(".....False only....", "======", i)
-
                 //DOM change
                 workoutHeading.innerHTML = "Workout: " + getStartWorkout.workoutName
                 excerciseHeading.innerHTML = getStartWorkout.excercise[i].name
@@ -73,7 +75,6 @@ if (!getStartWorkout) {
     startInterval();
 
     function isRest() {
-        console.log("rest found....")
         workoutHeading.innerHTML = "Resting Time"
         exerciseImage.src = "../images/exhausted-runner.png"
         timeCountHeading.innerHTML = "Time Count:"

@@ -3,8 +3,11 @@
 let getCurrently = localStorage.getItem("currentlyLogIn")
 let getUsers = localStorage.getItem("users");
 let users = getUsers ? JSON.parse(getUsers) : [];
-console.log(JSON.parse(getUsers));
 
+// Check if the user is Login
+if (JSON.parse(getCurrently)) {
+    location.replace("../index.html")
+}
 
 //Dom elements
 let username = document.getElementById("username");
@@ -29,14 +32,6 @@ let passwordValidationPassed = false;
 let conformPasswordValidationPassed = false;
 let genderValidationPassed = false;
 
-// Check if the user is Login
-if (JSON.parse(getCurrently)) {
-    console.log("login...")
-    location.replace("../index.html")
-} else {
-    console.log("NOT")
-}
-
 // Event listener to submit form
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -51,6 +46,20 @@ username.addEventListener("input", () => {
 function handleUsername() {
     if (username.value === "") {
         usernameError.innerHTML = "Username can't be empty";
+        username.classList.add("error");
+        usernameValidationPassed = false
+        return
+    }
+
+    let isCaptialLetter = false
+    for (let i = 0; i < username.value.length; i++) {
+        let charCode = username.value.charCodeAt(i);
+        if (charCode >= 65 && charCode <= 90) {
+            isCaptialLetter = true;
+        }
+    }
+    if (isCaptialLetter) {
+        usernameError.innerHTML = "Username must be lowercase letters";
         username.classList.add("error");
         usernameValidationPassed = false
     } else if (username.value.length <= 3) {
@@ -137,7 +146,6 @@ function handlePassword() {
     } else {
         passwordError.innerHTML = "";
         password.classList.remove("error");
-        console.log("special:", isSpecialChar, "number:", isNumber, "alphabets:", isAlphabets)
         passwordValidationPassed = true;
     }
 }
@@ -183,81 +191,63 @@ function handleGender() {
     }
     for (let i = 0; i < genderValue.length; i++) {
         if (genderValue[i].checked) {
-            console.log(genderValue[i].value);
             genderCheckedValue = genderValue[i].value;
         }
     }
 }
 
 function handleInput() {
-    let usernameIsEmpty = false;
-    let emailIsEmpty = false;
-    let passwordIsEmpty = false;
-    let conformPasswordIsEmpty = false;
-    let genderIsEmpty = false;
     if (username.value === "") {
         usernameError.innerHTML = "Username can't be empty";
         username.classList.add("error");
-        usernameIsEmpty = true
     }
     if (email.value === "") {
         emailError.innerHTML = "Email can't be empty";
         email.classList.add("error");
-        emailIsEmpty = true
     }
     if (password.value === "") {
         passwordError.innerHTML = "Password can't be empty";
         password.classList.add("error");
-        passwordIsEmpty = true;
     }
     if (conformPassword.value === "") {
-        conformPasswordError.innerHTML = "conform Password can't be empty";
+        conformPasswordError.innerHTML = "Confirm Password can't be empty";
         conformPassword.classList.add("error");
-        conformPasswordIsEmpty = true;
     }
     if (!maleRadio.checked && !femaleRadio.checked) {
         genderError.innerHTML = "Gender should be checked";
-        genderIsEmpty = true;
     }
 
-    //less code execute
-    if (usernameIsEmpty || passwordIsEmpty || emailIsEmpty || conformPasswordIsEmpty || genderIsEmpty) {
-        return
-    }
 
     //All Validation Passed, Now store in local storage
     if (usernameValidationPassed && emailValidationPassed && passwordValidationPassed && conformPasswordValidationPassed && genderValidationPassed) {
-        console.log("All validation Passed");
-
         //check username or email is already in used...
         let getData = JSON.parse(getUsers)
         let isUsernameAlreadyUsed = false;
         let isEmailAlreadyUsed = false;
         for (let i = 0; i < getData?.length; i++) {
-            if (getData[i].username === username.value.toLowerCase()) {
+            if (getData[i].username === username.value.toLowerCase().trim()) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Username already in used',
                 })
                 isUsernameAlreadyUsed = true;
-                break
-                //next code will not excute if they found same username
-            } else if (getData[i].email === email.value.toLowerCase()) {
+                break //next code will not excute if they found same username
+            } else if (getData[i].email === email.value.toLowerCase().trim()) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Email already registered',
                 })
                 isEmailAlreadyUsed = true;
-                break
+                break //next code will not excute if they found same email
             }
         }
 
         if (!isUsernameAlreadyUsed && !isEmailAlreadyUsed) {
             const newUser = {
-                username: username.value.toLowerCase(),
-                email: email.value.toLowerCase(),
+                username: username.value.toLowerCase().trim(),
+                email: email.value.toLowerCase().trim(),
                 password: password.value,
                 gender: genderCheckedValue,
             }

@@ -2,16 +2,15 @@
 2. register mei. agir value fill kerne bad submit pe click our error aie validation wala. phr agir username or email ki value empty bhi hotti hai to tbhi 2nd time pe wo submit pas hojata hai jo nahi honna chahie --- (FIXED)
 3. create components for navbar & other if required
 4. workout page mei intial wala select nahi honna chahaie. --- (FIXED)
-5. show order number in workout page. 
 
 BUGS
 
 Register/Login
-- email start should be start from alphabets --- (FIXED)
+- email should be start from alphabets --- (FIXED)
 - password combination should be show seperate errors --- (FIXED)
 - handlePassword(). code should be not excute next to it, if password field are empty (code) --- (FIXED)
 - handleUsername(). same from password (code) --- (FIXED)
-- handleInput(). Next code will not be excute if they found same username (code).
+- handleInput(). Next code will not be excute if they found same username (code). -- (FIXED)
 
 Home
 - In 'add excercise' button if user close the tab fields values should be empty --- (FIXED)
@@ -19,6 +18,7 @@ Home
 - Empty value should not be add. add validation process --- (FIXED)
 - In 'Start working' button change to workout.html --- (FIXED)
 - Loop should be break if found same excercise name (code). --- (FIXED)
+- Trim value & special charactor or number does not add in add excercise --- 
 
 Navbar
 - Display workout count in barket with the username --- (FIXED)
@@ -27,6 +27,8 @@ Workout
 - First option from select should be disabled or remove. --- (FIXED)
 - Initial option will also work onchange event. same as 4 --- (FIXED)
 - Sweet alert show after save workout --- (FIXED)
+- Trim value & special charactor or number does not add in add excercise --- 
+
 
 My Workout
 - My workout table should be display as ascending order --- (FIXED)

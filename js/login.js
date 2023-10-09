@@ -1,10 +1,12 @@
 //local Storage
 let getItem = localStorage.getItem("currentlyLogIn")
 let getCurrentlyLogin = getItem ? JSON.parse(getItem) : {};
-console.log(JSON.parse(getItem));
-
 let getUsers = localStorage.getItem("users");
-console.log(JSON.parse(getUsers));
+
+// Check if the user is Login
+if (JSON.parse(getItem)) {
+    location.replace("../index.html")
+}
 
 //Dom elements
 let username = document.getElementById("username");
@@ -16,13 +18,6 @@ let passwordError = document.getElementById("passwordError");
 let usernameValidationPassed = false;
 let passwordValidationPassed = false;
 
-// Check if the user is Login
-if (JSON.parse(getItem)) {
-    console.log("login...")
-    location.replace("../index.html")
-} else {
-    console.log("NOT")
-}
 
 // Event listener to submit form
 form.addEventListener("submit", (e) => {
@@ -38,17 +33,32 @@ function handleUsername() {
     if (username.value === "") {
         usernameError.innerHTML = "Username can't be empty";
         username.classList.add("error");
-        usernameValidationPassed = false;
+        usernameValidationPassed = false
+        return
+    }
+    
+    let isCaptialLetter = false
+    for (let i = 0; i < username.value.length; i++) {
+        let charCode = username.value.charCodeAt(i);
+        if (charCode >= 65 && charCode <= 90) {
+            isCaptialLetter = true;
+        }
+    }
+    if (isCaptialLetter) {
+        usernameError.innerHTML = "Username must be lowercase letters";
+        username.classList.add("error");
+        usernameValidationPassed = false
     } else if (username.value.length <= 3) {
         usernameError.innerHTML = "Username should be greater than 3";
         username.classList.add("error");
-        usernameValidationPassed = false;
+        usernameValidationPassed = false
     } else {
         usernameError.innerHTML = "";
         username.classList.remove("error");
         usernameValidationPassed = true;
     }
 }
+
 
 //password
 password.addEventListener("input", () => {
@@ -92,7 +102,6 @@ function handlePassword() {
     } else {
         passwordError.innerHTML = "";
         password.classList.remove("error");
-        console.log("special:", isSpecialChar, "number:", isNumber, "alphabets:", isAlphabets)
         passwordValidationPassed = true;
     }
 }
@@ -119,17 +128,16 @@ function handleInput() {
     let isUsernameCorrect = false;
     let isPasswordCorrect = false;
     if (usernameValidationPassed && passwordValidationPassed) {
-        console.log(usernameValidationPassed, passwordValidationPassed)
         //check username and password
         for (let i = 0; i < getData?.length; i++) {
-            if (getData[i].username === username.value.toLowerCase()) {
+            if (getData[i].username === username.value.toLowerCase().trim()) {
                 isUsernameCorrect = true;
             }
             if (getData[i].password === password.value) {
                 isPasswordCorrect = true;
+                break
             }
         }
-        console.log(isUsernameCorrect, isPasswordCorrect)
         //change sweet alert text if username or password are incorrect
         if (!isUsernameCorrect) {
             alertTextError = "Username is not found"
@@ -139,7 +147,6 @@ function handleInput() {
 
         //Login if both are correct
         if (isUsernameCorrect && isPasswordCorrect) {
-            console.log("Successfully login...")
             const newCurrentLogin = {
                 username: username.value.toLowerCase(),
             }

@@ -13,14 +13,12 @@ let myWorkout = ""
 let currentlyUserData = "";
 
 for (let i = 0; i < getUserData?.length; i++) {
-    if (getUserData[i].username === getDataCurrentlyLogin.username) {
+    if (getUserData[i]?.username === getDataCurrentlyLogin?.username) {
         myWorkout = getUserData[i].myWorkout;
         myWorkoutLength = myWorkout?.length
         currentlyUserData = getUserData[i];
     }
 }
-console.log(myWorkout,"=====",);
-console.log(currentlyUserData)
 
 
 //check if current user is logout
@@ -41,7 +39,6 @@ for (let i = 0; i < myWorkout?.length; i++) {
     let startExcerciseData = [];
     let durationTotalTime = 0
     let restTotalTime = 0
-    console.log(myWorkout[i].excerciseData)
     let table = document.createElement("table")
     let thead = document.createElement("thead")
     let body = document.createElement("tbody")
@@ -118,7 +115,6 @@ for (let i = 0; i < myWorkout?.length; i++) {
                     "workoutName":myWorkout[i].workoutName,
                     "excercise":startExcerciseData,
                 }
-                console.log(startWorkoutData)
                 getDataCurrentlyLogin.startWorkout = startWorkoutData //create a new key name myWorkout
                 localStorage.setItem("currentlyLogIn", JSON.stringify(getDataCurrentlyLogin))
                 //empty field if successfully submit
