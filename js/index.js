@@ -30,10 +30,10 @@ for (let i = 0; i < getUsersData.length; i++) {
     if (getUsersData[i]?.username === getDataCurrentlyLogin?.username) {
         myWorkoutLength = getUsersData[i]?.myWorkout?.length
         break
-    }    
+    }
 }
 if (myWorkoutLength) {
-    showUsername.innerHTML += ` (${myWorkoutLength})`    
+    showUsername.innerHTML += ` (${myWorkoutLength})`
 }
 
 // logOut button
@@ -51,13 +51,16 @@ myModal.addEventListener('hidden.bs.modal', function () {
 
 //add excercise name 
 addExerciseSubmit.addEventListener("click", () => {
-    let isEmpty = false;
+    //less code execute
+    if (addExercise.value === "") {
+        addExerciseNameError.innerHTML = "Exercise name is required";
+        addExercise.classList.add("border-danger")
+        return
+    } 
+    
     let isLetter = true;
     let isAlreadyInsert = false;
-    
-    if (addExercise.value === "") {
-        isEmpty = true;
-    }
+
     //check letter
     for (let i = 0; i < addExercise.value.length; i++) {
         let charCode = addExercise.value.charCodeAt(i);
@@ -65,15 +68,17 @@ addExerciseSubmit.addEventListener("click", () => {
             isLetter = false;
         }
     }
-    //check alread insert
+    
+    //check already insert --- extra code execute if they not find letter. (Pending)
     for (let i = 0; i < getDataAddExercise.length; i++) {
-        if (getDataAddExercise[i].trim() === addExercise.value.toLowerCase().trim()) {
+        if (getDataAddExercise[i].replace(/\s+/g, '') === addExercise.value.replace(/\s+/g, '').toLowerCase()) {
             isAlreadyInsert = true;
             break
         }
     }
+
     //add successfully
-    if (!isAlreadyInsert && !isEmpty && isLetter) {
+    if (!isAlreadyInsert && addExercise.value !== "" && isLetter) {
         getDataAddExercise.push(addExercise.value.toLowerCase())
         localStorage.setItem("exercise", JSON.stringify(getDataAddExercise));
         Swal.fire({
@@ -84,17 +89,14 @@ addExerciseSubmit.addEventListener("click", () => {
             timer: 1500
         })
         addExercise.value = ""
-    } else if (isEmpty) {
-        addExerciseNameError.innerHTML = "Exercise name is required";
-        addExercise.classList.add("border-danger")
-    } else if (isLetter) {
-        addExerciseNameError.innerHTML = "Exercise name is required Letter";
+    } else if (!isLetter) {
+        addExerciseNameError.innerHTML = "Exercise is accept only Letter";
         addExercise.classList.add("border-danger")
     } else if (isAlreadyInsert) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: "Already available",
+            text: "Already available, Please try another name",
         })
     }
     else {
@@ -104,22 +106,27 @@ addExerciseSubmit.addEventListener("click", () => {
 })
 
 //Exercise Name validtion
-addExercise.addEventListener("input",()=> {
+addExercise.addEventListener("input", () => {
+    //Less code execute
+    if (addExercise.value === "") {
+        addExerciseNameError.innerHTML = "Exercise name is required";
+        addExercise.classList.add("border-danger")
+        return
+    }
+    
     //check letter
     let isLetter = true;
     for (let i = 0; i < addExercise.value.length; i++) {
         let charCode = addExercise.value.charCodeAt(i);
-        if (!(charCode >= 65 && charCode <= 90 || charCode >= 97 && charCode <= 122)) {
+        if (!(charCode >= 65 && charCode <= 90 || charCode >= 97 && charCode <= 122 || charCode === 32)) {
             isLetter = false;
         }
     }
-    if (addExercise.value === "") {
-        addExerciseNameError.innerHTML = "Exercise name is required";
+
+    if (!isLetter) {
+        addExerciseNameError.innerHTML = "Exercise is accept only Letter";
         addExercise.classList.add("border-danger")
-    }   else if (!isLetter) {
-        addExerciseNameError.innerHTML = "Exercise required only Letters";
-        addExercise.classList.add("border-danger")
-    } 
+    }
     else {
         addExerciseNameError.innerHTML = ""
         addExercise.classList.remove("border-danger")

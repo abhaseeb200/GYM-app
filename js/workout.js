@@ -24,6 +24,7 @@ let myModalForAddEx = new bootstrap.Modal(exampleModalForAddEx)
 let selectWorkoutListCount = 0;
 let excerciseData = []
 let currentUserWorkout = ""
+let myWorkoutLength = 0
 
 
 //local storage
@@ -68,30 +69,38 @@ addExerciseExtra.addEventListener("click", () => {
 })
 
 
-//add excercise name 
+//add excercise name - saved 
 addExerciseSubmit.addEventListener("click", () => {
-    let isAlreadyInsert = false;
-    let isEmpty = false;
+    //less code execute
     if (addExercise.value === "") {
-        isEmpty = true;
+        addExerciseNameError.innerHTML = "Exercise name is required";
+        addExercise.classList.add("border-danger")
+        return
+    } 
+    
+    let isLetter = true;
+    let isAlreadyInsert = false;
+
+    //check letter
+    for (let i = 0; i < addExercise.value.length; i++) {
+        let charCode = addExercise.value.charCodeAt(i);
+        if (!(charCode >= 65 && charCode <= 90 || charCode >= 97 && charCode <= 122 || charCode === 32)) {
+            isLetter = false;
+        }
     }
+    
+    //check already insert --- extra code execute if they not find letter. (Pending)
     for (let i = 0; i < getDataAddExercise.length; i++) {
-        if (getDataAddExercise[i] === addExercise.value.toLowerCase()) {
+        if (getDataAddExercise[i].replace(/\s+/g, '') === addExercise.value.replace(/\s+/g, '').toLowerCase()) {
             isAlreadyInsert = true;
             break
         }
     }
+
     //add successfully
-    if (!isAlreadyInsert && !isEmpty) {
+    if (!isAlreadyInsert && addExercise.value !== "" && isLetter) {
         getDataAddExercise.push(addExercise.value.toLowerCase())
         localStorage.setItem("exercise", JSON.stringify(getDataAddExercise));
-        
-        //add workout exercise in select option
-        let newOption = document.createElement("option");
-        newOption.value = addExercise.value;
-        newOption.innerHTML = addExercise.value;
-        selectWorkout.appendChild(newOption);
-
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -99,30 +108,58 @@ addExerciseSubmit.addEventListener("click", () => {
             showConfirmButton: false,
             timer: 1500
         })
+
+        //add workout exercise in select option
+        let newOption = document.createElement("option");
+        newOption.value = addExercise.value;
+        newOption.innerHTML = addExercise.value;
+        selectWorkout.appendChild(newOption);
+        
         addExercise.value = ""
+    } else if (!isLetter) {
+        addExerciseNameError.innerHTML = "Exercise is accept only Letter";
+        addExercise.classList.add("border-danger")
     } else if (isAlreadyInsert) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: "Already available",
+            text: "Already available, Please try another name",
         })
-    } else if (isEmpty) {
-        addExercise.classList.add("border-danger")
-        addExerciseNameError.innerHTML = "Exercise name is required";
-
+    }
+    else {
+        addExerciseNameError.innerHTML = "";
+        addExercise.classList.remove("border-danger")
     }
 })
 
 //Exercise Name validtion
-addExercise.addEventListener("input",()=> {
+addExercise.addEventListener("input", () => {
+    //Less code execute
     if (addExercise.value === "") {
         addExerciseNameError.innerHTML = "Exercise name is required";
         addExercise.classList.add("border-danger")
-    } else {
+        return
+    }
+    
+    //check letter
+    let isLetter = true;
+    for (let i = 0; i < addExercise.value.length; i++) {
+        let charCode = addExercise.value.charCodeAt(i);
+        if (!(charCode >= 65 && charCode <= 90 || charCode >= 97 && charCode <= 122 || charCode === 32)) {
+            isLetter = false;
+        }
+    }
+
+    if (!isLetter) {
+        addExerciseNameError.innerHTML = "Exercise is accept only Letter";
+        addExercise.classList.add("border-danger")
+    }
+    else {
         addExerciseNameError.innerHTML = ""
         addExercise.classList.remove("border-danger")
     }
 })
+
 
 //close excercise modal button
 exampleModalForAddEx.addEventListener('hidden.bs.modal', function () {

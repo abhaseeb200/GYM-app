@@ -148,7 +148,7 @@ function handleInput() {
         //Login if both are correct
         if (isUsernameCorrect && isPasswordCorrect) {
             const newCurrentLogin = {
-                username: username.value.toLowerCase(),
+                username: username.value.trim().toLowerCase(),
             }
             localStorage.setItem("currentlyLogIn", JSON.stringify(newCurrentLogin))
             Swal.fire({
